@@ -53,8 +53,8 @@
 # Location constraints for differential reference clock buffers
 # Note: the IP core-level XDC constrains the transceiver channel data pin locations
 # ----------------------------------------------------------------------------------------------------------------------
-set_property package_pin AF5 [get_ports gth_clk0_x0y0_n]
-set_property package_pin AF6 [get_ports gth_clk0_x0y0_p]
+set_property package_pin AF5 [get_ports gth_clk_n]
+set_property package_pin AF6 [get_ports gth_clk_n]
 
 # Location constraints for other example design top-level ports
 # Note: uncomment the following set_property constraints and replace "<>" with appropriate pin locations for your board
@@ -78,7 +78,7 @@ set_property package_pin AF6 [get_ports gth_clk0_x0y0_p]
 # Note: the IP core-level XDC constrains clocks produced by the core, which drive user clocks via helper blocks
 # ----------------------------------------------------------------------------------------------------------------------
 create_clock -name clk_freerun -period 33.333 [get_ports hb_gtwiz_reset_clk_freerun_in]
-create_clock -name clk_mgtrefclk0_x0y0_p -period 8.0 [get_ports mgtrefclk0_x0y0_p]
+create_clock -name clk_mgtrefclk0_x0y0_p -period 8.0 [get_ports gth_clk0_x0y0_p]
 
 # False path constraints
 # ----------------------------------------------------------------------------------------------------------------------
