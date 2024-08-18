@@ -66,14 +66,18 @@ COMPONENT gtwizard_ultrascale_0
   );
 END COMPONENT;
 
+signal rst : std_logic;
+
 begin
+
+rst <= not gtwiz_reset_all_in;
 
 impl_gtwizard_ultrascale_0 : gtwizard_ultrascale_0
   PORT MAP (
     gtwiz_userclk_tx_active_in => gtwiz_userclk_tx_active_in,    --active 1
     gtwiz_userclk_rx_active_in => gtwiz_userclk_rx_active_in,    --active 1
     gtwiz_reset_clk_freerun_in => gtwiz_reset_clk_freerun_in,  -- board clock
-    gtwiz_reset_all_in => gtwiz_reset_all_in,
+    gtwiz_reset_all_in => rst,
     gtwiz_reset_tx_pll_and_datapath_in => gtwiz_reset_tx_pll_and_datapath_in,    -- vio
     gtwiz_reset_tx_datapath_in => gtwiz_reset_tx_datapath_in,                -- vio
     gtwiz_reset_rx_pll_and_datapath_in => gtwiz_reset_rx_pll_and_datapath_in,    -- vio

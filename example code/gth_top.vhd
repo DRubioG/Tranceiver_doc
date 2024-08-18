@@ -61,6 +61,7 @@ COMPONENT vio_0
         probe_in0 : IN STD_LOGIC;
         probe_in1 : IN STD_LOGIC;
         probe_in2 : IN STD_LOGIC;
+        probe_in3 : IN STD_LOGIC;
         probe_out0 : OUT STD_LOGIC;
         probe_out1 : OUT STD_LOGIC;
         probe_out2 : OUT STD_LOGIC;
@@ -77,7 +78,8 @@ PORT (
 	probe0 : IN STD_LOGIC; 
 	probe1 : IN STD_LOGIC; 
 	probe2 : IN STD_LOGIC;
-	probe3 : IN STD_LOGIC_VECTOR(31 DOWNTO 0)
+	probe3 : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
+	probe4 : in std_logic_vector(31 downto 0)
 );
 END COMPONENT  ;
 
@@ -125,6 +127,7 @@ VIO : vio_0
         probe_in0 => vio_gtpowergood_out,
         probe_in1 => vio_rxpmaresetdone_out,
         probe_in2 => vio_txpmaresetdone_out,
+        probe_in3 => rst_n,
         probe_out0 => vio_tx_en,
         probe_out1 => vio_tx_pll_en,
         probe_out2 => vio_rx_en,
@@ -140,7 +143,8 @@ PORT MAP (
 	probe0 => vio_tx_en,  
 	probe1 => vio_tx_pll_en, 
 	probe2 => vio_rx_en,
-	probe3 => data_out_s
+	probe3 => data_out_s,
+	probe4 => data_in
 );
 
 -- synch
