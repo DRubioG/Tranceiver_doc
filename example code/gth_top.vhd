@@ -1,5 +1,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use ieee.numeric_std.all;
 Library UNISIM;
 use UNISIM.vcomponents.all;
 
@@ -16,6 +17,8 @@ entity gth_top is
         data_in : in std_logic_vector(31 downto 0);
         tx_clk_out : out std_logic;
         data_out : out std_logic_vector(31 downto 0);
+        rx_ctrl : out std_logic_vector(7 downto 0);
+        tx_ctrl : in std_logic_vector(7 downto 0);
         -- unconnected
         gthrxn_in : in std_logic;
         gthrxp_in : in std_logic;
@@ -51,7 +54,14 @@ component gth is
         rxoutclk_out : OUT STD_LOGIC;
         rxpmaresetdone_out : OUT STD_LOGIC;
         txoutclk_out : OUT STD_LOGIC;
-        txpmaresetdone_out : OUT STD_LOGIC
+        txpmaresetdone_out : OUT STD_LOGIC;
+        tx_ctrl0 : in std_logic_vector(15 downto 0);
+        tx_ctrl1 : in std_logic_vector(15 downto 0);
+        tx_ctrl2 : in std_logic_vector(7 downto 0);
+        rx_ctrl0 : out std_logic_vector(15 downto 0);
+        rx_ctrl1 : out std_logic_vector(15 downto 0);
+        rx_ctrl2 : out std_logic_vector(7 downto 0);
+        rx_ctrl3 : out std_logic_vector(7 downto 0)
     );
 end component;
 
@@ -79,7 +89,11 @@ PORT (
 	probe1 : IN STD_LOGIC; 
 	probe2 : IN STD_LOGIC;
 	probe3 : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-	probe4 : in std_logic_vector(31 downto 0)
+	probe4 : in std_logic_vector(31 downto 0);
+	probe5 : IN STD_LOGIC_vector(7 downto 0); 
+	probe6 : IN STD_LOGIC_vector(7 downto 0); 
+	probe7 : IN STD_LOGIC; 
+	probe8 : IN STD_LOGIC
 );
 END COMPONENT  ;
 
@@ -111,13 +125,17 @@ signal vio_rx_pll_en :  std_logic;
 signal vio_gtpowergood_out :  std_logic;
 signal vio_rxpmaresetdone_out :  std_logic;
 signal vio_txpmaresetdone_out :  std_logic;
+
 signal data_out_s : std_logic_VECTOR(31 DOWNTO 0);
+signal tx_ctrl_s, rx_ctrl_s : std_logic_vector(7 downto 0);
 
 begin
 
     tx_clk_out <= tx_buf_gt_clk_s;
     rx_clk_out <= rx_buf_gt_clk_s; 
     data_out <= data_out_s;
+    rx_ctrl <= rx_ctrl_s;
+    tx_ctrl_s <= tx_ctrl;
 
 -- DEBUG
 
@@ -144,8 +162,16 @@ PORT MAP (
 	probe1 => vio_tx_pll_en, 
 	probe2 => vio_rx_en,
 	probe3 => data_out_s,
-	probe4 => data_in
+	probe4 => data_in,
+	probe5 => tx_ctrl_s,
+	probe6 => rx_ctrl_s,
+	probe7 => '0',
+	probe8 => '0'
+	
 );
+
+-- END DEBUG
+
 
 -- synch
 
@@ -244,7 +270,15 @@ impl_GTH : GTH
     rxoutclk_out => gth_rx_clk_s,   -- reloj a BUFG_GT
     rxpmaresetdone_out => vio_rxpmaresetdone_out, -- a un vio
     txoutclk_out => gth_tx_clk_s,       -- reloj a BUFG_GT
-    txpmaresetdone_out => vio_txpmaresetdone_out  -- a un vio
+    txpmaresetdone_out => vio_txpmaresetdone_out,  -- a un vio
+    
+    tx_ctrl0 => (others=>'0'),
+    tx_ctrl1 => (others=>'0'),
+    tx_ctrl2 => tx_ctrl_s,
+    rx_ctrl0 => open,
+    rx_ctrl1 => open,
+    rx_ctrl2 => rx_ctrl_s,
+    rx_ctrl3 => open 
   );
 
 end Behavioral;
