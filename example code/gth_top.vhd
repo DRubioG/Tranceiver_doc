@@ -208,7 +208,7 @@ implt_clk_freerun : clk_freerun
         clk_freerun => clk_freerun_s
     );
     
-    
+ --impl_IBUFDS_GTE4 : IBUFDS_GTE4  
  impl_IBUFDS_GTE3 : IBUFDS_GTE3 
     generic map(
     REFCLK_EN_TX_PATH  => '0',
