@@ -61,7 +61,12 @@ component gth is
         rx_ctrl0 : out std_logic_vector(15 downto 0);
         rx_ctrl1 : out std_logic_vector(15 downto 0);
         rx_ctrl2 : out std_logic_vector(7 downto 0);
-        rx_ctrl3 : out std_logic_vector(7 downto 0)
+        rx_ctrl3 : out std_logic_vector(7 downto 0);
+        tx_done : out std_logic;
+        rx_done : out std_logic;
+        rxbyteisaligned_out : out std_logic;
+        rxbyterealign_out : out std_logic;
+        rxcommadet_out : out std_logic
     );
 end component;
 
@@ -92,8 +97,14 @@ PORT (
 	probe4 : in std_logic_vector(31 downto 0);
 	probe5 : IN STD_LOGIC_vector(7 downto 0); 
 	probe6 : IN STD_LOGIC_vector(7 downto 0); 
-	probe7 : IN STD_LOGIC; 
-	probe8 : IN STD_LOGIC
+	probe7 : IN STD_LOGIC_vector(15 downto 0); 
+	probe8 : IN STD_LOGIC_vector(15 downto 0);
+	probe9 : IN STD_LOGIC_vector(7 downto 0); 
+	probe10 : IN STD_LOGIC;
+	probe11 : IN STD_LOGIC; 
+	probe12 : IN STD_LOGIC;
+	probe13 : IN STD_LOGIC; 
+	probe14 : IN STD_LOGIC
 );
 END COMPONENT  ;
 
@@ -125,6 +136,14 @@ signal vio_rx_pll_en :  std_logic;
 signal vio_gtpowergood_out :  std_logic;
 signal vio_rxpmaresetdone_out :  std_logic;
 signal vio_txpmaresetdone_out :  std_logic;
+signal  tx_done :  std_logic;
+signal  rx_done :  std_logic;
+signal  rxbyteisaligned_out :  std_logic;
+signal  rxbyterealign_out :  std_logic;
+signal  rxcommadet_out :  std_logic;
+signal rx_ctrl0 : std_logic_vector(15 downto 0);
+signal rx_ctrl1 : std_logic_vector(15 downto 0);
+signal rx_ctrl3 : std_logic_vector(7 downto 0);
 
 signal data_out_s : std_logic_VECTOR(31 DOWNTO 0);
 signal tx_ctrl_s, rx_ctrl_s : std_logic_vector(7 downto 0);
@@ -165,8 +184,14 @@ PORT MAP (
 	probe4 => data_in,
 	probe5 => tx_ctrl_s,
 	probe6 => rx_ctrl_s,
-	probe7 => '0',
-	probe8 => '0'
+	probe7 => rx_ctrl0,
+	probe8 => rx_ctrl1,
+	probe9 => rx_ctrl3,
+	probe10 => tx_done,
+	probe11 => rx_done,
+	probe12 => rxbyteisaligned_out,
+	probe13 => rxbyterealign_out,
+	probe14 => rxcommadet_out
 	
 );
 
@@ -275,10 +300,15 @@ impl_GTH : GTH
     tx_ctrl0 => (others=>'0'),
     tx_ctrl1 => (others=>'0'),
     tx_ctrl2 => tx_ctrl_s,
-    rx_ctrl0 => open,
-    rx_ctrl1 => open,
+    rx_ctrl0 => rx_ctrl0,
+    rx_ctrl1 => rx_ctrl1,
     rx_ctrl2 => rx_ctrl_s,
-    rx_ctrl3 => open 
+    rx_ctrl3 => rx_ctrl3,
+    tx_done => tx_done,
+    rx_done => rx_done,
+    rxbyteisaligned_out => rxbyteisaligned_out,
+    rxbyterealign_out => rxbyterealign_out,
+    rxcommadet_out => rxcommadet_out
   );
 
 end Behavioral;

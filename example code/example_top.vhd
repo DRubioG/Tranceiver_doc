@@ -74,23 +74,11 @@ signal rx_ctrl_s : std_logic_vector(7 downto 0);
 
 signal ila_data_out : std_logic_vector(31 downto 0);
 
-COMPONENT ila_2
 
-PORT (
-	clk : IN STD_LOGIC;
-	probe0 : IN STD_LOGIC_VECTOR(7 DOWNTO 0)
-);
-END COMPONENT  ;
 
 
 begin
 
-
-your_instance_name : ila_2
-PORT MAP (
-	clk => clk_rx_c,
-	probe0 => rx_ctrl_s
-);
 
 
 ALIGN : word_align

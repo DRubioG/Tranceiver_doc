@@ -33,11 +33,18 @@ entity gth is
         rx_ctrl0 : out std_logic_vector(15 downto 0);
         rx_ctrl1 : out std_logic_vector(15 downto 0);
         rx_ctrl2 : out std_logic_vector(7 downto 0);
-        rx_ctrl3 : out std_logic_vector(7 downto 0)
+        rx_ctrl3 : out std_logic_vector(7 downto 0);
+        tx_done : out std_logic;
+        rx_done : out std_logic;
+        rxbyteisaligned_out : out std_logic;
+        rxbyterealign_out : out std_logic;
+        rxcommadet_out : out std_logic
     );
 end gth;
 
 architecture arch_gth of gth is
+
+
 
 COMPONENT gtwizard_ultrascale_0
   PORT (
@@ -88,39 +95,7 @@ COMPONENT gtwizard_ultrascale_0
   );
 END COMPONENT;
 
---COMPONENT gtwizard_ultrascale_0
---  PORT (
---    gtwiz_userclk_tx_active_in : IN STD_LOGIC;
---    gtwiz_userclk_rx_active_in : IN STD_LOGIC;
---    gtwiz_reset_clk_freerun_in : IN STD_LOGIC;
---    gtwiz_reset_all_in : IN STD_LOGIC;
---    gtwiz_reset_tx_pll_and_datapath_in : IN STD_LOGIC;
---    gtwiz_reset_tx_datapath_in : IN STD_LOGIC;
---    gtwiz_reset_rx_pll_and_datapath_in : IN STD_LOGIC;
---    gtwiz_reset_rx_datapath_in : IN STD_LOGIC;
---    gtwiz_reset_rx_cdr_stable_out : OUT STD_LOGIC;
---    gtwiz_reset_tx_done_out : OUT STD_LOGIC;
---    gtwiz_reset_rx_done_out : OUT STD_LOGIC;
---    gtwiz_userdata_tx_in : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
---    gtwiz_userdata_rx_out : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
---    gtrefclk00_in : IN STD_LOGIC;
---    qpll0outclk_out : OUT STD_LOGIC;
---    qpll0outrefclk_out : OUT STD_LOGIC;
---    gthrxn_in : IN STD_LOGIC;
---    gthrxp_in : IN STD_LOGIC;
---    rxusrclk_in : IN STD_LOGIC;
---    rxusrclk2_in : IN STD_LOGIC;
---    txusrclk_in : IN STD_LOGIC;
---    txusrclk2_in : IN STD_LOGIC;
---    gthtxn_out : OUT STD_LOGIC;
---    gthtxp_out : OUT STD_LOGIC;
---    gtpowergood_out : OUT STD_LOGIC;
---    rxoutclk_out : OUT STD_LOGIC;
---    rxpmaresetdone_out : OUT STD_LOGIC;
---    txoutclk_out : OUT STD_LOGIC;
---    txpmaresetdone_out : OUT STD_LOGIC
---  );
---END COMPONENT;
+
 
 signal rst : std_logic;
 
@@ -139,8 +114,8 @@ impl_gtwizard_ultrascale_0 : gtwizard_ultrascale_0
     gtwiz_reset_rx_pll_and_datapath_in => gtwiz_reset_rx_pll_and_datapath_in,    -- vio
     gtwiz_reset_rx_datapath_in => gtwiz_reset_rx_datapath_in,                -- vio
     gtwiz_reset_rx_cdr_stable_out => open,
-    gtwiz_reset_tx_done_out => open,
-    gtwiz_reset_rx_done_out => open,
+    gtwiz_reset_tx_done_out => tx_done,
+    gtwiz_reset_rx_done_out => rx_done,
     gtwiz_userdata_tx_in => gtwiz_userdata_tx_in,
     gtwiz_userdata_rx_out => gtwiz_userdata_rx_out,
     gtrefclk00_in => gtrefclk00_in,    -- gth clock reference, only for test
@@ -163,9 +138,9 @@ impl_gtwizard_ultrascale_0 : gtwizard_ultrascale_0
     gthtxn_out => gthtxn_out,     -- salida no definida (dejar al aire)
     gthtxp_out => gthtxp_out,     -- salida no definida (dejar al aire)
     gtpowergood_out => gtpowergood_out,    -- a un vio
-    rxbyteisaligned_out => open,
-    rxbyterealign_out => open,
-    rxcommadet_out => open,
+    rxbyteisaligned_out => rxbyteisaligned_out,
+    rxbyterealign_out => rxbyterealign_out,
+    rxcommadet_out => rxcommadet_out,
     rxctrl0_out => rx_ctrl0,
     rxctrl1_out => rx_ctrl1,
     rxctrl2_out => rx_ctrl2,

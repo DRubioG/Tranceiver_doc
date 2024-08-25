@@ -16,7 +16,7 @@ architecture Behavioral of send_message is
 
 type fsm is (IDLE, SEND_CORRECTION, SEND_DUMMY, SEND_HEADER, SEND_SEQ_NUM, SEND_CTRL, SEND_DATA, SEND_CHECK, SEND_DATA_END);
 signal state : fsm;
-signal cont : unsigned(7 downto 0);
+signal cont : unsigned(31 downto 0);
 signal data_s : std_logic_vector(31 downto 0);
 signal ctrl_s : std_logic_vector(3 downto 0);
 
@@ -57,9 +57,9 @@ begin
                     state <= SEND_DATA;
                     ctrl_s <= (others=>'0');
                 when SEND_DATA =>
-                    data_s <= std_logic_vector(cont) & std_logic_vector(cont) & std_logic_vector(cont) & std_logic_vector(cont);
+                    data_s <= std_logic_vector(cont); -- & std_logic_vector(cont) & std_logic_vector(cont) & std_logic_vector(cont);
                     ctrl_s <= (others=>'0'); 
-                    if cont = (cont'range=>'1') then
+                    if cont = x"000000FF" then
                         state <= SEND_DATA_END;
                     end if;
                 when SEND_DATA_END =>
